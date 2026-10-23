@@ -1,0 +1,84 @@
+/* Grayskills micro-interactions — states for micro.js. Uses the page's own tokens (--accent, --text, --muted, --surface…)
+   with safe fallbacks, so a moment looks like part of the skill, not an add-on. Final state = no class at all. */
+:root { --mi-ease: cubic-bezier(.22, 1, .36, 1); --mi-accent: var(--accent, #3FB7A6); }
+
+/* a step that has not arrived yet (only ever set by micro.js) */
+.mi-js .mi-pre { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+.mi-js [data-mi-step] { transition: opacity .42s var(--mi-ease), transform .5s var(--mi-ease), filter .42s var(--mi-ease), color .3s, background-color .3s; }
+.mi-js .mi-swap { opacity: .35; transition: opacity .16s; }
+
+/* typing caret */
+.mi-caret { display: inline-block; width: 1.5px; height: 1.05em; margin-left: 1px; vertical-align: -0.16em; background: currentColor; animation: mi-blink 1s steps(2, start) infinite; }
+@keyframes mi-blink { to { visibility: hidden; } }
+
+/* a list item lit by a sequence (data-mi-sync) */
+[data-mi-sync-item] { transition: opacity .45s var(--mi-ease), color .45s var(--mi-ease); }
+.mi-lit { color: var(--text, inherit); }
+.mi-lit .mi-num, .mi-lit [class*="__num"] { background: var(--mi-accent); color: var(--on-accent, var(--gs-bg)); box-shadow: 0 0 0 4px color-mix(in srgb, var(--mi-accent) 22%, transparent); transition: background-color .35s, box-shadow .35s, color .35s; }
+[data-mi-sync-list].mi-playing [data-mi-sync-item]:not(.mi-lit) { opacity: .45; }
+
+/* timeline stops not reached yet */
+.mi-js .mi-dim { opacity: .38; transition: opacity .4s var(--mi-ease); }
+
+/* marker sweep — the band is part of the written page (final state: ?static, reduced motion and the checkers see it) */
+[data-mi~="mark"], .mi-mark { background-image: linear-gradient(transparent 58%, color-mix(in srgb, var(--mi-accent) 30%, transparent) 58%, color-mix(in srgb, var(--mi-accent) 30%, transparent) 92%, transparent 92%);
+  background-repeat: no-repeat; background-size: 100% 100%; transition: background-size 1.1s var(--mi-ease); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.mi-js .mi-pre-mark { background-size: 0% 100%; }
+
+/* a status that is still working, then lands */
+.mi-busy::before { animation: mi-pulse 1.2s ease-in-out infinite; }
+@keyframes mi-pulse { 50% { opacity: .35; transform: scale(.8); } }
+.mi-done-pop::before { animation: mi-land .45s var(--mi-ease); }
+@keyframes mi-land { 0% { transform: scale(.4); } 70% { transform: scale(1.35); } 100% { transform: scale(1); } }
+
+/* chart tooltips */
+.mi-tip { position: absolute; z-index: 3; transform: translate(-50%, calc(-100% - 8px)) scale(.96); pointer-events: none; white-space: nowrap; padding: 5px 9px; border-radius: 8px;
+  font: 500 11.5px/1.3 var(--font, inherit); color: var(--text, var(--gs-bg)); background: var(--surface-2, color-mix(in srgb, var(--gs-c26) 92.0%, transparent)); border: 1px solid var(--line, color-mix(in srgb, var(--gs-bg) 12.0%, transparent));
+  opacity: 0; transition: opacity .18s, transform .22s var(--mi-ease), left .22s var(--mi-ease), top .22s var(--mi-ease); }
+.mi-tips-on .mi-tip { opacity: 1; transform: translate(-50%, calc(-100% - 8px)) scale(1); }
+[data-mi="tips"] [data-mi-tip] { transition: opacity .25s var(--mi-ease); cursor: default; }
+
+/* a number rolling to its new value */
+.mi-rolling { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) { .mi-caret { display: none; } .mi-busy::before, .mi-done-pop::before { animation: none; } .mi-mark { transition: none; } }
+
+/* ── loops: quiet life on illustrations; they only move while .mi-run (on screen, among the 2 most visible) ── */
+.mi-loop { --mi-period: 7s; --mi-amp: 6px; --mi-phase: 0s; animation-duration: var(--mi-period); animation-delay: calc(var(--mi-phase) * -1); animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-play-state: paused; }
+.mi-loop.mi-run { animation-play-state: running; }
+.mi-loop--float { animation-name: mi-float; }
+/* loops keep a part's own centring translate (--mi-tx/--mi-ty, read by micro.js) so a centred illustration part never jumps */
+@keyframes mi-float { 0%, 100% { translate: var(--mi-tx, 0px) var(--mi-ty, 0px); } 50% { translate: var(--mi-tx, 0px) calc(var(--mi-ty, 0px) - var(--mi-amp)); } }
+.mi-loop--drift { animation-name: mi-drift; }
+@keyframes mi-drift { 0%, 100% { translate: var(--mi-tx, 0px) var(--mi-ty, 0px); } 33% { translate: calc(var(--mi-tx, 0px) + var(--mi-amp) * .6) calc(var(--mi-ty, 0px) - var(--mi-amp) * .5); } 66% { translate: calc(var(--mi-tx, 0px) - var(--mi-amp) * .4) calc(var(--mi-ty, 0px) - var(--mi-amp)); } }
+.mi-loop--breathe { animation-name: mi-breathe; }
+@keyframes mi-breathe { 0%, 100% { opacity: 1; scale: 1; } 50% { opacity: .72; scale: .97; } }
+.mi-glint { position: relative; display: inline-block; line-height: 0; }
+.mi-glint > img { display: block; }
+.mi-loop--glint::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, color-mix(in srgb, var(--gs-bg) 22.0%, transparent) 48%, color-mix(in srgb, var(--gs-bg) 5.0%, transparent) 54%, transparent 62%) no-repeat;
+  background-size: 260% 100%; background-position: 130% 0;
+  -webkit-mask: var(--mi-mask) center / contain no-repeat; mask: var(--mi-mask) center / contain no-repeat;
+  animation: inherit; animation-name: mi-glint; }
+.mi-loop--glint { animation-name: none; }
+@keyframes mi-glint { 0%, 62% { background-position: 130% 0; } 100% { background-position: -40% 0; } }
+@media (prefers-reduced-motion: reduce) { .mi-loop, .mi-loop--glint::after { animation: none !important; } }
+
+/* when a headline figure follows the hover (data-mi-big), the figure is the answer: no tooltip saying it twice */
+[data-mi-big] > .mi-tip { display: none; }
+
+/* ── edge: the design's signature edge line draws in from the centre, then a soft light may run along it ── */
+.mi-edge::after, .mi-edge-line { transition: transform 1.1s var(--mi-ease), opacity .6s; transform-origin: 50% 50%; }
+.mi-js .mi-edge-pre::after, .mi-js .mi-edge-pre > .mi-edge-line { transform: scaleX(0); opacity: 0; }
+.mi-edge-line { position: absolute; left: 8%; right: 8%; height: 1px; z-index: 3; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--accent-ink, var(--mi-accent)) 35%, var(--tint, var(--mi-accent)) 65%, transparent); opacity: .9; }
+.mi-edge-line--top { top: 0; } .mi-edge-line--bottom { bottom: 0; }
+.mi-edge-light { position: absolute; left: 8%; right: 8%; height: 1px; z-index: 4; pointer-events: none; overflow: hidden; }
+.mi-edge-light--top { top: 0; } .mi-edge-light--bottom { bottom: 0; }
+.mi-edge-light::before { content: ""; position: absolute; top: -1px; bottom: -1px; width: 28%; left: -30%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--gs-bg) 95.0%, transparent), color-mix(in srgb, var(--gs-bg) 0.0%, transparent)); filter: blur(.4px);
+  animation: mi-edge-run var(--mi-period, 8s) cubic-bezier(.45,0,.25,1) infinite; animation-play-state: inherit; }
+.mi-edge-light.mi-loop { animation: none; }
+.mi-edge-light:not(.mi-run)::before { animation-play-state: paused; }
+@keyframes mi-edge-run { 0%, 55% { left: -30%; opacity: 0; } 60% { opacity: 1; } 95% { opacity: 1; } 100% { left: 102%; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .mi-edge-light { display: none; } }

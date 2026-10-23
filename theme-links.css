@@ -1,0 +1,41 @@
+/* Grayskills theme links — points this design's own colour/font variables at theme.css. Made by the builder. */
+:root {
+  --bg: var(--gs-bg);
+  --paper: var(--gs-surface);
+  --surface: var(--gs-surface);
+  --surface-2: var(--gs-border);
+  --butter: var(--gs-c4);
+  --mint: var(--gs-c5);
+  --sky: var(--gs-c6);
+  --lilac: var(--gs-c7);
+  --peach: var(--gs-c8);
+  --text: var(--gs-text);
+  --text-2: var(--gs-muted);
+  --muted: var(--gs-c23);
+  --on-dark: var(--gs-bg);
+  --on-dark-2: var(--gs-c24);
+  --line: color-mix(in srgb, var(--gs-c1) 12.0%, transparent);
+  --line-2: color-mix(in srgb, var(--gs-c1) 22.0%, transparent);
+  --line-dark: color-mix(in srgb, var(--gs-bg) 22.0%, transparent);
+  --accent: var(--gs-brand);
+  --accent-deep: var(--gs-text);
+  --accent-soft: var(--gs-c21);
+  --on-accent: var(--gs-bg);
+  --pop: var(--gs-accent);
+  --pop-soft: var(--gs-c22);
+  --success: var(--gs-c16);
+  --warning: var(--gs-c17);
+  --danger: var(--gs-c18);
+  --info: var(--gs-c19);
+  --star: var(--gs-c20);
+  --shadow-1: 0 1px 2px color-mix(in srgb, var(--gs-c1) 6.0%, transparent), 0 4px 14px color-mix(in srgb, var(--gs-c1) 5.0%, transparent);
+  --shadow-2: 0 24px 60px color-mix(in srgb, var(--gs-c1) 12.0%, transparent), 0 6px 18px color-mix(in srgb, var(--gs-c1) 6.0%, transparent);
+  --font: var(--gs-font-body);
+  --font-display: var(--gs-font-heading);
+  --mi-accent: var(--accent, var(--gs-c25));
+}
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+:root {
+  --font-display: var(--gs-font-heading);
+  --font: var(--gs-font-body);
+}

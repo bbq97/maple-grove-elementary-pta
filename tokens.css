@@ -1,0 +1,104 @@
+/* Nubi design tokens — a warm, playful learning-studio look: cream paper, navy ink, five soft
+   pastel card colours, Fredoka rounded headlines, Nunito body and hand-drawn crayon doodles.
+   Fonts (load before this file):
+   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@500;600;700&display=swap" rel="stylesheet"> */
+:root {
+  /* ── Surfaces ── */
+  --bg: #FFFFFF;          /* white sections (between curved edges) */
+  --paper: #F7F3EA;       /* cream paper: hero, tinted bands, FAQ rows, staff cards */
+  --surface: #F7F3EA;     /* alias of paper for cards on white */
+  --surface-2: #EFE9DC;   /* hover on paper, nested trays */
+
+  /* Pastel card set (fixed — the playful rhythm of the look; one per card, never two neighbours alike) */
+  --butter: #FBE8A6;
+  --mint: #D6EBD9;
+  --sky: #D9E7F7;
+  --lilac: #E6DFF5;
+  --peach: #FBDCCB;
+
+  /* ── Text ── */
+  --text: #203A63;        /* navy ink: headings + strong text (11.6:1 on paper) */
+  --text-2: #4A5878;      /* body copy (6.6:1 on paper) */
+  --muted: #5D6884;       /* captions, small meta (5.3:1 on paper) */
+  --on-dark: #FFFFFF;
+  --on-dark-2: #D3DBEA;   /* body on the navy footer */
+
+  /* ── Lines ── */
+  --line: rgba(32, 58, 99, .12);   /* card hairlines, FAQ underline, dividers */
+  --line-2: rgba(32, 58, 99, .22); /* inputs, outlined buttons */
+  --line-dark: rgba(255, 255, 255, .22);
+
+  /* ── Brand / accent (brand slots — the palette engine replaces these per build) ── */
+  --accent: #203A63;      /* primary pill buttons, logo mark, active nav, footer band */
+  --accent-rgb: 32, 58, 99;
+  --accent-deep: #172B4B; /* footer / CTA gradient end */
+  --accent-soft: #E3E9F3; /* tinted chip, hover on light buttons */
+  --on-accent: #FFFFFF;   /* text on an accent fill */
+  --pop: #F2884B;         /* crayon doodles, stars, timeline dots — never text, never buttons */
+  --pop-soft: #FDE3D2;    /* marquee arc band, tag fills */
+
+  /* ── Data / status (forms + mockups only — never brand) ── */
+  --success: #2F8F5B; --warning: #C77A12; --danger: #C8423B; --info: #2F6FB8;
+  --star: #F2B53A;        /* review stars */
+
+  /* ── Fonts ── */
+  --font: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fredoka", "Nunito", system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ── Radii ── */
+  --r-xs: 10px;   /* icon wells, small tags */
+  --r-sm: 16px;   /* FAQ rows, inner photo of staff card, inputs */
+  --r: 24px;      /* cards, split panels, photos */
+  --r-lg: 40px;   /* hero photo, big testimonial panel */
+  --r-pill: 9999px;
+
+  /* ── Spacing / layout ── */
+  --container: 1224px;  /* content column (1600 frame − 2×188) */
+  --gutter: 24px;
+  --section: 120px;     /* rhythm between sections */
+  --head-gap: 56px;     /* section head → content */
+  --card-pad: 40px;
+  --curve: 72px;        /* depth of the curved section edges */
+  --nav-h: 61px;
+
+  /* ── Shadows ── */
+  --shadow-1: 0 1px 2px rgba(32, 58, 99, .06), 0 4px 14px rgba(32, 58, 99, .05);
+  --shadow-2: 0 24px 60px rgba(32, 58, 99, .12), 0 6px 18px rgba(32, 58, 99, .06);
+  --shadow-sticker: 3px 4px 0 var(--accent-deep);   /* sticker chips + tilted step cards (follows the palette) */
+
+  /* ── Motion ── */
+  --ease: cubic-bezier(.25, .46, .45, .94); --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-spring: cubic-bezier(.34, 1.45, .64, 1); --dur: .7s;
+}
+
+/* ── Type scale (Fredoka for headings, Nunito for everything else) ── */
+.t-display { font: 600 72px/1.02 var(--font-display); letter-spacing: -0.035em; }
+.t-h1 { font: 600 56px/1.06 var(--font-display); letter-spacing: -0.03em; }
+.t-h2 { font: 600 48px/1.08 var(--font-display); letter-spacing: -0.03em; }
+.t-h3 { font: 600 32px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.t-h4 { font: 600 22px/1.25 var(--font-display); letter-spacing: -0.01em; }
+.t-display, .t-h1, .t-h2, .t-h3, .t-h4 { text-wrap: balance; color: var(--text); }
+.t-quote { font: 500 32px/1.3 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.t-lead { font: 600 20px/1.5 var(--font); letter-spacing: -0.01em; }
+.t-body { font: 500 17px/1.6 var(--font); letter-spacing: -0.005em; }
+.t-small { font: 600 15px/1.5 var(--font); }
+.t-label { font: 700 12px/1.5 var(--font); letter-spacing: 0.06em; text-transform: uppercase; }
+
+@media (max-width: 900px) {
+  .t-display { font-size: 52px; } .t-h1 { font-size: 44px; } .t-h2 { font-size: 38px; } .t-h3 { font-size: 24px; }
+  .t-quote { font-size: 24px; }
+  :root { --section: 96px; --head-gap: 40px; --card-pad: 32px; --curve: 44px; }
+}
+@media (max-width: 560px) {
+  .t-display { font-size: 40px; } .t-h1 { font-size: 36px; } .t-h2 { font-size: 31px; } .t-h3 { font-size: 24px; }
+  .t-quote { font-size: 22px; } .t-lead { font-size: 18px; }
+  :root { --section: 76px; --gutter: 16px; --card-pad: 24px; --curve: 28px; --r-lg: 28px; }
+}
+
+/* ── Motion off: reduced motion + ?static (the JS adds .static to <html>) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+.static *, .static *::before, .static *::after { animation: none !important; transition: none !important; }

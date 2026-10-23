@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bbq97.github.io/maple-grove-elementary-pta/sitemap.xml

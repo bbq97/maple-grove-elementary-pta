@@ -1,0 +1,46 @@
+/* Grayskills theme — this site's colours and fonts, all in one place. The builder's Style panel edits it. */
+/* gs-labels: {"--gs-c1": "Colour 1", "--gs-c2": "Colour 2", "--gs-c3": "Colour 3", "--gs-c4": "Background 4", "--gs-c5": "Background 5", "--gs-c6": "Background 6", "--gs-c7": "Background 7", "--gs-c8": "Background 8", "--gs-c9": "Colour 9", "--gs-c10": "Colour 10", "--gs-c11": "Colour 11", "--gs-c12": "Colour 12", "--gs-c13": "Colour 13", "--gs-c14": "Colour 14", "--gs-c15": "Colour 15", "--gs-c16": "Colour 16", "--gs-c17": "Colour 17", "--gs-c18": "Colour 18", "--gs-c19": "Colour 19", "--gs-c20": "Colour 20", "--gs-c21": "Button 21", "--gs-c22": "Colour 22", "--gs-c23": "Text 23", "--gs-c24": "Text 24", "--gs-c25": "Colour 25", "--gs-c26": "Background 26", "--gs-font-3": "Font 1", "--gs-font-4": "Font 2", "--gs-font-5": "Font 3", "--gs-font-6": "Font 4"} */
+:root {
+  --gs-bg: #FFFFFF;   /* Background */
+  --gs-surface: #EFF8FD;   /* Cards and bands */
+  --gs-text: #331514;   /* Text and headings */
+  --gs-muted: #625554;   /* Secondary text */
+  --gs-border: #E2EEF6;   /* Lines and borders */
+  --gs-brand: #DB3441;   /* Brand (buttons, links) */
+  --gs-on-brand: #FFFFFF;   /* Text on brand */
+  --gs-accent: #1982C4;   /* Accent */
+  --gs-dark: #331514;   /* Dark sections */
+  --gs-on-dark: #FFFFFF;   /* Text on dark */
+  --gs-font-heading: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;   /* Headings */
+  --gs-font-body: "Rubik", system-ui, -apple-system, "Segoe UI", sans-serif;   /* Body text */
+  --gs-c1: #203a63;   /* Colour 1 */
+  --gs-c2: #f7f3ea;   /* Colour 2 */
+  --gs-c3: #efe9dc;   /* Colour 3 */
+  --gs-c4: #fbe8a6;   /* Background 4 */
+  --gs-c5: #d6ebd9;   /* Background 5 */
+  --gs-c6: #d9e7f7;   /* Background 6 */
+  --gs-c7: #e6dff5;   /* Background 7 */
+  --gs-c8: #fbdccb;   /* Background 8 */
+  --gs-c9: #4a5878;   /* Colour 9 */
+  --gs-c10: #5d6884;   /* Colour 10 */
+  --gs-c11: #d3dbea;   /* Colour 11 */
+  --gs-c12: #172b4b;   /* Colour 12 */
+  --gs-c13: #e3e9f3;   /* Colour 13 */
+  --gs-c14: #f2884b;   /* Colour 14 */
+  --gs-c15: #fde3d2;   /* Colour 15 */
+  --gs-c16: #2f8f5b;   /* Colour 16 */
+  --gs-c17: #c77a12;   /* Colour 17 */
+  --gs-c18: #c8423b;   /* Colour 18 */
+  --gs-c19: #2f6fb8;   /* Colour 19 */
+  --gs-c20: #f2b53a;   /* Colour 20 */
+  --gs-c21: #fef0ef;   /* Button 21 */
+  --gs-c22: #4294d1;   /* Colour 22 */
+  --gs-c23: #726564;   /* Text 23 */
+  --gs-c24: #e3d8d7;   /* Text 24 */
+  --gs-c25: #3fb7a6;   /* Colour 25 */
+  --gs-c26: #141416;   /* Background 26 */
+  --gs-font-3: "Rubik", system-ui, -apple-system, 'Segoe UI', sans-serif;   /* Font 1 */
+  --gs-font-4: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;   /* Font 2 */
+  --gs-font-5: "Fredoka", "Nunito", system-ui, sans-serif;   /* Font 3 */
+  --gs-font-6: inherit !important;   /* Font 4 */
+}

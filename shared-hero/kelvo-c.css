@@ -1,0 +1,36 @@
+/* Shared hero kelvo-c (centred-below/band-fan) — Grayskills library. Scoped to .sh-kelvo-c. */
+/* Shared hero: kelvo-c — lifted from Kelvo variants #hero-c (forest-fan): a dark rounded band inset from the page edges,
+   a centred headline, lead and pill, and three photos fanned below like prints on a table (outer two tilted ±7°, dropped
+   64px, the middle one on top), cut off by the band's bottom edge. Contract tokens only (CONTRACT.md §2). */
+.sh-kelvo-c { position: relative; padding: calc(var(--hero-pad-top, 48px) - 24px) 0 0; background: var(--bg); }
+.sh-kelvo-c .sh-band { position: relative; width: min(var(--container) + 20px, 100% - 100px); margin-inline: auto; padding: 100px 80px 0; border-radius: var(--r-hero, var(--r-lg)); background: var(--ink-bg); color: var(--on-dark); overflow: clip; text-align: center; }
+.sh-kelvo-c .sh-head { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 24px; max-width: 900px; margin-inline: auto; }
+.sh-kelvo-c .sh-eyebrow { margin: 0; font-family: var(--font-label); font-size: var(--label-size, 16px); letter-spacing: var(--label-tracking, 0); text-transform: var(--label-transform, uppercase); font-weight: var(--label-weight, 600); line-height: 1.5; color: var(--on-dark); }
+.sh-kelvo-c .sh-title { margin: 0; font-family: var(--font-display); font-weight: var(--display-weight, 400); font-size: min(var(--display-size, 96px), 8.2vw); line-height: var(--display-lh, 1); letter-spacing: var(--display-tracking, -.02em); color: var(--on-dark); text-wrap: balance; }
+.sh-kelvo-c .sh-title em { font-style: var(--display-em, italic); }
+.sh-kelvo-c .sh-lead { margin: 0; max-width: 560px; font-family: var(--font); font-size: var(--lead-size, 18px); font-weight: var(--body-weight, 400); line-height: 1.7; color: color-mix(in srgb, var(--on-dark) 86%, transparent); }
+.sh-kelvo-c .sh-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 16px; }
+.sh-kelvo-c .sh-fan { position: relative; height: 400px; margin-top: 72px; }
+.sh-kelvo-c .sh-ph { --w: 420px; --x: 0px; position: absolute; top: 0; left: calc(50% - var(--w) / 2 + var(--x)); width: var(--w); max-width: none; aspect-ratio: 4 / 3; height: auto; object-fit: cover; border-radius: var(--r, 32px); }
+.sh-kelvo-c .sh-ph--l { top: 64px; --x: -380px; rotate: -7deg; }
+.sh-kelvo-c .sh-ph--m { z-index: 1; }
+.sh-kelvo-c .sh-ph--r { top: 64px; --x: 380px; rotate: 7deg; }
+/* 3D lean on hover (Farhan 2026-10-23, hero rules sweep): data-mi-tilt — micro.js feeds --m-rx / --m-ry; at rest the same tilt */
+.sh-kelvo-c .sh-ph[data-mi-tilt] { transform: perspective(1200px) rotateX(var(--m-rx, 0deg)) rotateY(var(--m-ry, 0deg)); }
+@media (max-width: 1100px) {
+  .sh-kelvo-c .sh-band { width: calc(100% - 2 * var(--gutter)); padding: 80px 40px 0; }
+  .sh-kelvo-c .sh-ph { --w: 340px; }
+  .sh-kelvo-c .sh-ph--l { --x: -280px; }
+  .sh-kelvo-c .sh-ph--r { --x: 280px; }
+  .sh-kelvo-c .sh-fan { height: 330px; }
+}
+@media (max-width: 760px) {
+  .sh-kelvo-c { padding-top: var(--hero-pad-top, 24px); }
+  .sh-kelvo-c .sh-band { width: calc(100% - 16px); padding: 56px 20px 0; border-radius: var(--r, 32px); }
+  .sh-kelvo-c .sh-title { font-size: var(--display-size-sm, 48px); }
+  .sh-kelvo-c .sh-lead { font-size: 16px; }
+  .sh-kelvo-c .sh-fan { height: 220px; margin-top: 48px; }
+  .sh-kelvo-c .sh-ph { --w: 220px; border-radius: var(--r-sm, 16px); }
+  .sh-kelvo-c .sh-ph--l { top: 36px; --x: -130px; }
+  .sh-kelvo-c .sh-ph--r { top: 36px; --x: 130px; }
+}

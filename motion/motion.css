@@ -1,0 +1,138 @@
+/* Grayskills motion — shared states for every design skill (source: grayskiller/motion/). Load AFTER the skill's CSS.
+   Hidden start states only exist once motion.js has tagged the page (html.m-js) — no JS, ?static or reduced motion = everything visible.
+   Movement uses the individual `translate` / `scale` / `rotate` properties so it stacks on top of any `transform` a component already has;
+   parts the skill centres with `translate` keep it through `--m-tx` / `--m-ty` (set by motion.js).
+   Tokens: --m-ease (settle curve), --m-dur (reveal length), --m-accent (progress bar, spotlight, glow pulse; falls back to the skill's --accent),
+   --m-spot (spotlight colour). Personality (html.m-calm | m-crisp | m-playful) sets the rest. */
+
+:root {
+  --m-ease: cubic-bezier(.16, 1, .3, 1);        /* long, soft settle (expo-out) — calm never bounces */
+  --m-ease-io: cubic-bezier(.65, 0, .35, 1);    /* in-out for wipes */
+  --m-spring: cubic-bezier(.34, 1.45, .64, 1);  /* overshoot — playful only */
+  --m-pop-ease: var(--m-ease);
+  --m-dur: 1.1s;
+  --m-rise: 32px; --m-blur: 6px;
+  --m-word-dur: 1.15s; --m-word-rot: 4deg;
+  --m-img-dur: 1.6s; --m-node-dur: .6s;
+  --m-float-dur: 6s;
+  --m-accent: var(--accent, currentColor);
+  --m-spot: color-mix(in srgb, var(--m-accent) 12%, transparent);
+}
+html.m-crisp   { --m-dur: .7s;  --m-ease: cubic-bezier(.2, .8, .2, 1); --m-rise: 20px; --m-blur: 0px; --m-word-dur: .8s; --m-word-rot: 0deg; --m-img-dur: 1.1s; --m-node-dur: .45s; --m-float-dur: 5s; }
+html.m-playful { --m-dur: .9s;  --m-pop-ease: var(--m-spring);          --m-rise: 40px; --m-blur: 4px; --m-word-dur: 1s;  --m-word-rot: 7deg; --m-img-dur: 1.3s; --m-node-dur: .55s; --m-float-dur: 4.5s; }
+
+/* ───────── Page boot: content waits for motion.js to tag it, then fades up (2.5 s safety in JS) ───────── */
+html.m-js:not(.m-on) :is(main, body > footer, .site-foot, body > section) { opacity: 0; }
+html.m-js :is(main, body > footer, .site-foot, body > section) { transition: opacity .6s ease; }
+html.m-js .m-nav { animation: m-nav-in 1s var(--m-ease) both; }
+@keyframes m-nav-in { from { translate: 0 -100%; opacity: 0; } }
+
+/* Skill reveals taken over: their hidden state is ours now */
+.m-js [data-reveal] { opacity: 1; transform: none; }
+
+/* ───────── Scroll reveals ───────── */
+/* The engine owns `transition` only while it reveals an element; .m-done hands it back to the component's own hover transitions
+   (Farhan 2026-10-11, Tervo: every image/card/block hover jumped because these rules replaced the skill's transitions). */
+.m-js [data-m]:not(.m-done) { transition-property: opacity, translate, scale, rotate, filter, clip-path; transition-duration: var(--m-dur); transition-timing-function: var(--m-ease); transition-delay: var(--d, 0s); }
+
+.m-js [data-m="up"]:not(.m-in)    { opacity: 0; translate: var(--m-tx, 0px) calc(var(--m-ty, 0px) + var(--m-rise)); filter: blur(var(--m-blur)); }
+.m-js [data-m="fade"]:not(.m-in)  { opacity: 0; }
+.m-js [data-m="pop"]:not(.m-done) { transition-timing-function: var(--m-pop-ease); transition-duration: .9s; }
+.m-js [data-m="pop"]:not(.m-in)   { opacity: 0; scale: .82; }
+.m-js [data-m="panel"]:not(.m-in) { opacity: 0; scale: .965; }
+.m-js [data-m="wipe"]:not(.m-done) { transition-timing-function: var(--m-ease-io); transition-duration: 1.2s; }
+.m-js [data-m="wipe"]:not(.m-in)  { clip-path: inset(0 100% 0 0 round 24px); }
+.m-js [data-m="wipe"].m-in        { clip-path: inset(-12px -12px -12px -12px round 24px); }
+.m-js [data-m="count"]:not(.m-done), .m-js [data-m="none"]:not(.m-done) { transition: none; }
+
+/* Photos: soft unmask + slow zoom settle (parallax photos settle at --ps) */
+.m-js [data-m="img"]:not(.m-done) { transition-duration: var(--m-img-dur), var(--m-img-dur), calc(var(--m-img-dur) + .2s); transition-property: opacity, clip-path, scale; }
+.m-js [data-m="img"]:not(.m-in)   { opacity: 0; scale: 1.14; clip-path: inset(9% 9% 9% 9% round 32px); }
+.m-js [data-m="img"].m-in         { scale: var(--ps, 1); clip-path: inset(-24px -24px -24px -24px round 0); }   /* negative inset keeps outlines + offset shadows visible */
+
+/* Headlines: each word rises out of its own mask */
+.m-w  { display: inline-block; overflow: clip; overflow-clip-margin: .2em; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+.m-wi { display: inline-block; transition: translate var(--m-word-dur) var(--m-ease), opacity var(--m-word-dur) var(--m-ease), rotate var(--m-word-dur) var(--m-ease); transition-delay: var(--d, 0s); }
+
+/* the word split must never change how a heading wraps: page rules like `h1 span {display:block}` must not reach the engine's spans (Farhan 2026-10-10) */
+.m-split .m-w { display: inline-block !important; width: auto !important; float: none !important; }
+.m-split .m-wi { display: inline-block !important; }
+.m-js .m-split:not(.m-in) .m-wi { translate: 0 108%; rotate: 0 0 1 var(--m-word-rot); opacity: 0; }
+
+/* ───────── Illustrations + mock-ups ───────── */
+.m-js [data-m="node"]:not(.m-done) { transition-duration: var(--m-node-dur); transition-timing-function: var(--m-pop-ease); }
+.m-js [data-m="node"]:not(.m-in)  { opacity: 0; scale: .8; }
+.m-js [data-m="line"]             { transition: stroke-dashoffset .9s var(--m-ease) var(--d, 0s); }
+.m-js [data-m="grow"]             { transform-origin: 50% 100%; }
+.m-js [data-m="grow"]:not(.m-done) { transition-duration: .8s; }
+.m-js [data-m="grow"]:not(.m-in)  { scale: 1 .02; }
+.m-rel { position: relative; }
+.m-js .m-lit.m-in::after { content: ""; position: absolute; inset: -3px; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--m-accent) 55%, transparent); animation: m-pulse 1.4s var(--m-ease) var(--dl, 0s) 1 both; }
+@keyframes m-pulse { to { box-shadow: 0 0 0 22px transparent; opacity: 0; } }
+
+/* ───────── Ambient "breathing" (≤ 1 loop per screen) ───────── */
+@keyframes m-breathe { 0%, 100% { translate: var(--m-tx, 0px) var(--m-ty, 0px); } 50% { translate: var(--m-tx, 0px) calc(var(--m-ty, 0px) + var(--fy, -7px)); } }
+.m-js .m-float.m-in { animation: m-breathe var(--fd, var(--m-float-dur)) ease-in-out var(--fdl, 0s) infinite; }
+
+/* ───────── Hover: magnetic buttons + shine ───────── */
+.m-shine { position: relative; overflow: hidden; isolation: isolate; }
+.m-shine::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(105deg, transparent 30%, color-mix(in srgb, var(--gs-bg) 28.0%, transparent) 50%, transparent 70%); translate: -130% 0; transition: translate .9s var(--m-ease); }
+.m-shine:hover::after { translate: 130% 0; }
+/* .m-mag / .m-lift transitions are ADDED to the element's own transition inline by motion.js (never replace it) */
+
+/* Spotlight that follows the cursor inside cards */
+.m-spot-host { isolation: isolate; }
+.m-spot { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .5s ease;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--m-spot), transparent 70%); }
+.m-spot-host:hover > .m-spot { opacity: 1; }
+.m-lift { }
+.m-lift:hover { translate: 0 -4px; }
+
+/* Hero cursor glow (behind content) */
+.m-glow-host { isolation: isolate; }
+.m-glow { position: absolute; z-index: -1; left: 0; top: 0; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--m-accent) 22%, transparent), transparent 70%); filter: blur(30px); opacity: 0; transition: opacity 1s ease; }
+.m-glow-host:hover > .m-glow { opacity: 1; }
+
+/* ───────── Chrome: smart sticky nav + reading progress ───────── */
+.m-nav { transition: translate .5s var(--m-ease), box-shadow .4s ease, background-color .4s ease; }
+/* no hide-on-scroll: a fixed menu stays put (navcheck.py) */
+.m-progress { position: fixed; z-index: 60; left: 0; top: 0; width: 100%; height: 2px; background: linear-gradient(90deg, var(--m-accent), color-mix(in srgb, var(--m-accent) 55%, var(--gs-bg))); transform-origin: 0 50%; scale: var(--p, 0) 1; pointer-events: none; }
+
+/* Tab panels cross-fade when switched */
+.m-js [role="tabpanel"]:not([hidden]) { animation: m-tab .7s var(--m-ease) both; }
+@keyframes m-tab { from { opacity: 0; translate: 0 14px; } }
+
+/* ───────── Page-to-page: soft cross-fade (View Transitions, Chrome/Edge/Safari 18+) ───────── */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: m-vt-out .35s ease both; }
+::view-transition-new(root) { animation: m-vt-in .6s var(--m-ease) both; }
+@keyframes m-vt-out { to { opacity: 0; translate: 0 -12px; } }
+@keyframes m-vt-in { from { opacity: 0; translate: 0 18px; } }
+
+/* ───────── Respect reduced motion: show everything, move nothing ───────── */
+@media (prefers-reduced-motion: reduce) {
+  html.m-js :is(main, body > footer, .site-foot, body > section) { opacity: 1 !important; }
+  .m-js [data-m], .m-js .m-split .m-wi { opacity: 1 !important; translate: none !important; scale: none !important; rotate: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
+  .m-js [data-m="line"] { stroke-dashoffset: 0 !important; stroke-dasharray: none !important; }
+  .m-js .m-float, .m-js .m-nav, .m-js [role="tabpanel"], .m-js .m-lit.m-in::after { animation: none !important; }
+  .m-shine::after, .m-glow, .m-progress { display: none; }
+  .m-lift:hover, .m-mag { translate: none !important; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+
+/* the word split wraps each word in a span: page rules aimed at a phrase span (e.g. `.hero h1 span {color: var(--muted)}`) must not
+   restyle every word. Words take colour and font from their real parent, so a muted/italic phrase stays muted/italic and the rest stays ink (Farhan 2026-10-10) */
+.m-split .m-w, .m-split .m-wi { color: inherit !important; font-style: inherit !important; font-weight: inherit !important; font-family: var(--gs-font-6); }
+
+/* ───────── Sliding nav pill (data-m-glide; Farhan 2026-10-13) ───────── */
+[data-m-glide] { position: relative; }
+[data-m-glide] > a, [data-m-glide] > * > a, [data-m-glide] > * > button { position: relative; z-index: 1; }
+.m-glide-pill { position: absolute; z-index: 0; left: 0; top: 0; width: 0; height: 0; border-radius: 999px; pointer-events: none; opacity: 0;
+  background: var(--glide, color-mix(in srgb, currentColor 8%, transparent));
+  transition: transform .45s var(--m-ease), width .45s var(--m-ease), height .45s var(--m-ease), opacity .25s var(--m-ease); }
+.m-glide-pill.on { opacity: 1; }
+
+/* ───────── Smooth scroll (rules.json "smoothScroll": true; the engine glides the wheel itself) ───────── */
+html.m-smooth { scroll-behavior: auto !important; }

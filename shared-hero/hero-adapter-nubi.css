@@ -1,0 +1,43 @@
+/* Shared Hero adapter: nubi (family: local). CONTRACT.md §2/§3.
+   Copied from: nubi/tokens.css (:root, .t-display, .t-lead, .t-label, responsive steps), nubi/nubi.css
+   (.site-head/.site-head__bar, .btn--*, .chip, .photo--lg, .foot, .h-hero), nubi/palette/slots.json,
+   nubi/pages/index.html (home hero), demo little-acorns hero (margin-top: calc(-20px - var(--nav-h))).
+   Nubi defines most contract tokens natively; only the four it lacks are aliased. Link AFTER tokens.css / palette.css / type.css. */
+:root {
+  /* (a) alias block: the contract tokens Nubi lacks */
+  --ink-bg: var(--accent-deep);           /* .foot / hero-f background: the deep brand navy */
+  --accent-ink: var(--accent-deep);       /* palette "deep" = text-safe brand tone (also feeds --text) */
+  --font-label: var(--font);              /* .chip / .t-label are Nunito */
+  --r-hero: var(--r-lg);                  /* .photo--lg hero photo, 40px (28px <=560) */
+
+  /* (b) voice: .t-display = Fredoka 600 72px/1.02, -0.035em (52 <=900, 40 <=560); Fredoka has no italic */
+  --display-size: 72px;
+  --display-size-sm: 40px;
+  --display-weight: 600;
+  --display-lh: 1.02;
+  --display-tracking: -0.035em;
+  --display-em: normal;
+  --lead-size: 20px;                      /* .t-lead 600 20px/1.5 (18px <=560) */
+  --body-weight: 600;
+  --label-size: 12px;                     /* .chip: 700 12px, .06em, uppercase, star mark */
+  --label-tracking: .06em;
+  --label-transform: uppercase;
+  --label-weight: 700;
+
+  /* (c) shape + nav */
+  --nav-offset: calc(var(--nav-h) + 20px);   /* sticky .site-head: 20px margin-top + 61px pill bar = 81px */
+  --hero-tuck: calc(var(--nav-h) + 20px);    /* full-bleed photo heroes slide under the frosted pill (demo little-acorns) */
+  --hero-pad-top: 72px;                      /* .h-hero padding-top */
+}
+
+/* (caps) measured width of one capital in this skill's own display font at its heaviest weight (2026-10-19). Zero specificity:
+   a build's type.css (its assigned font pair) always wins. Wordmark heroes size the name from it. */
+:where(:root) { --display-caps-em: 0.647; }
+
+/* (header-over) a colour-band hero under the header (gb-olivia, data-hero-header="over", 2026-10-19). Nubi's .site-head is a
+   sticky frosted pill in the flow (20px margin + 61px bar); here it is taken out of the flow as position: fixed at the same
+   spot (top 20px), so the band starts at the very top with no tuck and the pill still follows the page like the sticky
+   original. The pill keeps its frosted white fill + navy ink (reads on any band and on the paper page after).
+   Clearance: 81px + 28px. */
+body:has([data-hero-header="over"][data-host-skill="nubi"]) { --hero-tuck: 0px; --hero-pad-top: 109px; }
+body:has([data-hero-header="over"][data-host-skill="nubi"]) .site-head { position: fixed; top: 20px; left: 0; right: 0; margin-top: 0; }

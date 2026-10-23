@@ -1,0 +1,20 @@
+/* palette.css — Crayon Box (crayon-box) · tags: kids, education, school, toys, playful, bold. Load AFTER tokens.css. Made by palette/palette.py */
+:root {
+  --accent: #DB3441;
+  --accent-rgb: 219, 52, 65;
+  --accent-deep: #331514;
+  --accent-soft: #FEF0EF;
+  --on-accent: #FFFFFF;
+  --text: #331514;
+  --pop: #1982C4;
+  --pop-soft: #4294D1;
+  /* gs-neutrals family=sky-wash band=brand-deep bg=#EFF8FD button=#DB3441 darkband=- blue=yes bluecap=open blueok=- cream=- alt=blush-paper */
+  --bg: #FFFFFF;
+  --paper: #EFF8FD;
+  --surface: #EFF8FD;
+  --surface-2: #E2EEF6;
+  --text-2: #625554;
+  --muted: #726564;
+  --on-dark-2: #E3D8D7;
+  /* gs-neutral-fills #E2EEF6 #EFF8FD #FFFFFF (grounds and bands: palette/contrast.py never nudges them) */
+}

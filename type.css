@@ -1,0 +1,12 @@
+/* type.css — Rubik Soft · tone energetic. Load AFTER tokens.css. Made by typography/type.py */
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+:root {
+  --font-display: "Rubik", system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: "Rubik", system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --display-caps-em: 0.681;
+}
+.t-display { letter-spacing: -0.02em; font-weight: 600; line-height: 1.02; }
+.t-h1 { letter-spacing: -0.02em; font-weight: 600; line-height: 1.02; }
+.t-h2 { letter-spacing: -0.02em; font-weight: 600; line-height: 1.06; }
+.t-h3 { letter-spacing: -0.01em; font-weight: 600; line-height: 1.1; }
+.t-h4 { letter-spacing: -0.01em; font-weight: 600; }

@@ -1,0 +1,22 @@
+/* type-fix.css — written by typography/typecheck.py --fix. Safe, selector-level typography repairs. */
+h1, h2, h3 { text-wrap: balance; }
+p, li, blockquote, figcaption { text-wrap: pretty; }
+a.pt-link > div.pt-link__txt > h3.t-h4 { text-wrap: pretty; }
+details.pt-qc > summary > span.pt-qc__text { line-height: 1.5; }
+details.pt-q > summary > span.pt-q__text { line-height: 1.5; }
+div.pt-card > div.pt-card__top > span.pt-card__logo { line-height: 1.5; }
+ol.pt-week__index > li > span { line-height: 1.5; }
+article.pt-open > div > p { text-wrap: pretty; }
+div.faq > details > p { text-wrap: pretty; }
+article.pt-article > div.pt-article__body > p { max-width: 34em; text-wrap: pretty; }
+ol.pt-how__list > li > p { text-wrap: pretty; }
+div.pt-letter__band > div > h2.t-h2 { text-wrap: pretty; }
+li.card.card--peach > div > p { text-wrap: pretty; }
+li.card.card--butter > div > h3.t-h4 { text-wrap: pretty; }
+div.pt-letter__band > div > h2.t-h3 { text-wrap: pretty; }
+article.pt-role > div.pt-role__body > p { text-wrap: pretty; }
+div.pt-mission__copy > ul.ticks > li { text-wrap: pretty; }
+article.pt-open > div > h3 { text-wrap: pretty; }
+a.pt-link > div > p { text-wrap: pretty; }
+a.pt-story > div.pt-story__body > p { text-wrap: pretty; }
+div.pt-letter__band > div > p { text-wrap: pretty; }
